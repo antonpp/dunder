@@ -15,21 +15,21 @@
                 d.getUTCMinutes() + ":" +
                 d.getUTCSeconds() + "." + 
                 d.getUTCMilliseconds() + " > " + what);
-  }
+  };
 
   __.loadImg = function(url, fun) {
     var img = new Image();
     img.onload = function() {
       if (typeof fun === 'function') fun(img);
-    }
+    };
     img.src = url;
-  }
+  };
 
   __.loadAudio = function(url, fun) {
     var snd = typeof Audio !== 'undefined' ? new Audio() : null;
     var onDone = function() {
       if (typeof fun === 'function') fun(snd);
-    }
+    };
     if (snd === null) {
       onDone();
     } else {
@@ -37,9 +37,9 @@
       snd.onerror = onDone;
       snd.onstalled = onDone;
       snd.onsuspend = onDone;
-      snd.src = url
+      snd.src = url;
     }
-  }
+  };
 
   __.loaderAsync = function(urls, fun) {
     var nTotal = urls.length;
@@ -49,18 +49,18 @@
       if (nLoaded === nTotal) {
         if (typeof fun === 'function') fun();
       }
-    }
+    };
     var loadMe = function() {
       if (this.match(/(\.ogg|\.mp3|\.wav|\.acc)$/gi)) {
         // audio preloading unreliable (in chrome!)
-        __.loadAudio(this)
-        oneLoaded()
+        __.loadAudio(this);
+        oneLoaded();
       } else {
-        __.loadImg(this, oneLoaded)
+        __.loadImg(this, oneLoaded);
       }
-    }
-    $(urls).each(loadMe)
-  }
+    };
+    $(urls).each(loadMe);
+  };
 
   __.loaderSync = function(urls, fun) {
     var u = urls.slice();
@@ -69,14 +69,14 @@
       var loadThis = u.pop();
       if (loadThis.match(/(\.ogg|\.mp3|\.wav|\.acc)$/gi)) {
         // audio preloading unreliable !
-        __.loadAudio(loadThis)
-        __.loaderSync(u, fun)
+        __.loadAudio(loadThis);
+        __.loaderSync(u, fun);
       } else {
-        __.loadImg(loadThis, function(){ __.loaderSync(u, fun) });
+        __.loadImg(loadThis, function(){ __.loaderSync(u, fun); });
       }
     } else {
       if (typeof fun === 'function') fun();
     }
-  }
+  };
 
-})(this)
+})(this);
